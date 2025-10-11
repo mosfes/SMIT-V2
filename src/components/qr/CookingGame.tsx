@@ -55,7 +55,7 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
 
   useEffect(() => {
     const calculatePrice = (ingredients: Ingredient[]): number => {
-      const hasMainComponent = ingredients.some(i => i.category === 'meat' || i.category === 'seafood');
+      const hasMainComponent = ingredients.some(i => i.category === 'meat' || i.category === 'seafood' || i.category === 'topping');
       if (!hasMainComponent) {
         return 0;
       }
@@ -63,11 +63,10 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
       let price = 50; // Base price
 
       const regularMeats = ingredients.filter(i => 
-          (i.category === 'meat' || i.category === 'seafood') &&
-          !['fried-egg', 'omelette', 'creamy-omelette', 'sil', 'upae'].includes(i.id)
+          (i.category === 'meat' || i.category === 'seafood')
       );
 
-      const eggCount = ingredients.filter(i => ['fried-egg', 'omelette', 'creamy-omelette'].includes(i.id)).length;
+      const toppings = ingredients.filter(i => i.category === 'topping');
       
       const specialOption = ingredients.find(i => i.id === 'sil' || i.id === 'upae');
 
@@ -75,14 +74,14 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
         price += (regularMeats.length - 1) * 10;
       }
       
-      price += eggCount * 10;
+      price += toppings.length * 10;
 
       if (specialOption) {
         price += specialOption.id === 'sil' ? 10 : 20;
       }
       
       if (regularMeats.length === 0) {
-        if (eggCount > 0) {
+        if (toppings.length > 0) {
           price -= 10;
         } else if (specialOption) {
           price -= specialOption.id === 'sil' ? 10 : 20;
@@ -141,7 +140,7 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
       (i) => i.category === "vegetable"
     );
 
-    // const styles = ["ผัด", "เผ็ด", "หวาน", "กรอบ", "ไทย", "ย่าง", "นึ่ง"];
+    const styles = ["ผัด", "เผ็ด", "หวาน", "กรอบ", "ไทย", "ย่าง", "นึ่ง"];
     const style = styles[Math.floor(Math.random() * styles.length)];
 
     let name = style;
@@ -184,6 +183,8 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
     const vegetables = ingredients.filter((i) => i.category === "vegetable");
     const sauces = ingredients.filter((i) => i.category === "sauce");
     const spices = ingredients.filter((i) => i.category === "spice");
+    const toppings = ingredients.filter((i) => i.category === "topping");
+    const specials = ingredients.filter((i) => i.category === "special");
 
     return (
       <div className="min-h-screen bg-gradient-to-b from-amber-50 via-yellow-50 to-orange-50 pb-6">
@@ -316,6 +317,41 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
                   </button>
                 );
               })}
+              <div className="bg-gradient-to-br from-yellow-500 to-yellow-400 text-white px-1 py-1 rounded-lg text-center shadow-md sticky top-0 z-10">
+                <p className="text-[10px]">ท็อปปิ้ง</p>
+              </div>
+              {toppings.map((ingredient) => {
+                const isSelected = selectedIngredients.find(
+                  (i) => i.id === ingredient.id
+                );
+                return (
+                  <button
+                    key={ingredient.id}
+                    onClick={() => toggleIngredient(ingredient)}
+                    className={`w-full aspect-square rounded-xl shadow-lg transition-all transform active:scale-95 ${
+                      isSelected
+                        ? "bg-gradient-to-br from-green-400 to-emerald-500 scale-95 ring-2 ring-green-300"
+                        : "bg-white hover:scale-105"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center justify-center h-full p-1">
+                      {isUrl(ingredient.icon) ? (
+                        <img
+                          src={ingredient.icon}
+                          alt={ingredient.name}
+                          className="w-12 h-12 object-contain"
+                        />
+                      ) : (
+                        <span className="text-2xl">{ingredient.icon}</span>
+                      )}
+                      <span className="text-xs mt-1">{ingredient.name}</span>
+                      {isSelected && (
+                        <Sparkles className="w-3 h-3 text-white" />
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Center: Frying Pan */}
@@ -384,7 +420,7 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
               </div>
             </div>
 
-            {/* Right: Vegetables, Sauces & Spices */}
+            {/* Right: Vegetables, Sauces, Spices & Specials */}
             <div className="flex-shrink-0 w-20 space-y-2 overflow-y-auto max-h-[500px]">
               <div className="bg-gradient-to-br from-green-600 to-emerald-600 text-white px-1 py-1 rounded-lg text-center shadow-md sticky top-0 z-10">
                 <p className="text-[10px]">เครื่องปรุง</p>
@@ -413,6 +449,33 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
                       ) : (
                         <span className="text-2xl">{ingredient.icon}</span>
                       )}
+                      <span className="text-xs mt-1">{ingredient.name}</span>
+                      {isSelected && (
+                        <Sparkles className="w-3 h-3 text-white" />
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+              <div className="bg-gradient-to-br from-purple-600 to-purple-500 text-white px-1 py-1 rounded-lg text-center shadow-md sticky top-0 z-10">
+                <p className="text-[10px]">พิเศษ</p>
+              </div>
+              {specials.map((ingredient) => {
+                const isSelected = selectedIngredients.find(
+                  (i) => i.id === ingredient.id
+                );
+                return (
+                  <button
+                    key={ingredient.id}
+                    onClick={() => toggleIngredient(ingredient)}
+                    className={`w-full aspect-square rounded-xl shadow-lg transition-all transform active:scale-95 ${
+                      isSelected
+                        ? "bg-gradient-to-br from-green-400 to-emerald-500 scale-95 ring-2 ring-green-300"
+                        : "bg-white hover:scale-105"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center justify-center h-full p-1">
+                      <span className="text-2xl">{ingredient.icon}</span>
                       <span className="text-xs mt-1">{ingredient.name}</span>
                       {isSelected && (
                         <Sparkles className="w-3 h-3 text-white" />

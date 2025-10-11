@@ -90,11 +90,12 @@ export const ingredients: Ingredient[] = [
   { id: 'chicken', name: 'ไก่', icon: '/assets/ไก่.png', category: 'meat' },
   { id: 'dolly-fish', name: 'ปลาดอลลี่', icon: '/assets/ปลาดอลลี่.png', category: 'meat' },
   { id: 'silkworm-pupae', name: 'ดักแด้', icon: '/assets/ดักแด้.png', category: 'meat' },
-  { id: 'sil', name: 'พิเศษ', icon: '', category: 'meat' },
-  { id: 'upae', name: 'พิเศษตะโกน', icon: '', category: 'meat' },
+  
+  // Special
+  { id: 'sil', name: 'พิเศษ', icon: '', category: 'special' },
+  { id: 'upae', name: 'พิเศษตะโกน', icon: '', category: 'special' },
   
   // Vegetables
-  { id: 'mushroom', name: 'เห็ด', icon: '/assets/เห็ด.png', category: 'vegetable' },
   { id: 'oyster-sauce', name: 'ซอสหอย', icon: '/assets/ซอสหอย.png', category: 'sauce' },
   { id: 'fish-sauce', name: 'น้ำปลา', icon: '/assets/น้ำปลา.png', category: 'sauce' },
   { id: 'green-cap-sauce', name: 'ซอสฝาเขียว', icon: '/assets/ซองฝาเขียว.png', category: 'sauce' },
@@ -110,9 +111,10 @@ export const ingredients: Ingredient[] = [
   { id: 'curry-paste', name: 'พริกแกง', icon: '/assets/พริกแกง.png', category: 'spice' },
 
   // Toppings
-  { id: 'fried-egg', name: 'ไข่ดาว', icon: 'assets/ไข่ดาว.png', category: 'meat' },
-  { id: 'creamy-omelette', name: 'ไข่ข้น', icon: 'assets/ไข่ข้น.png', category: 'meat' },
-  { id: 'omelette', name: 'ไข่เจียว', icon: 'assets/ไข่เจียว.png', category: 'meat' },
+  { id: 'fried-egg', name: 'ไข่ดาว', icon: 'assets/ไข่ดาว.png', category: 'topping' },
+  { id: 'creamy-omelette', name: 'ไข่ข้น', icon: 'assets/ไข่ข้น.png', category: 'topping' },
+  { id: 'omelette', name: 'ไข่เจียว', icon: 'assets/ไข่เจียว.png', category: 'topping' },
+  { id: 'mushroom', name: 'เห็ด', icon: '/assets/เห็ด.png', category: 'topping' },
 ];
 
 export const mockUser: User = {

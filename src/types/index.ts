@@ -81,5 +81,5 @@ export interface Ingredient {
   id: string;
   name: string;
   icon: string; // Can be an emoji or an image URL
-  category: 'meat' | 'seafood' | 'vegetable' | 'sauce' | 'spice' | 'topping';
+  category: 'meat' | 'seafood' | 'vegetable' | 'sauce' | 'spice' | 'topping' | 'special';
 }
