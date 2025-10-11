@@ -121,6 +121,46 @@ function QRPlatform() {
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
 
   const handleGameComplete = (dishName: string, ingredients: Ingredient[], spicyLevel: number) => {
+    const calculatePrice = (selectedIngredients: Ingredient[]): number => {
+      const hasMainComponent = selectedIngredients.some(i => i.category === 'meat' || i.category === 'seafood');
+      if (!hasMainComponent) {
+        return 0;
+      }
+
+      let price = 50; // Base price
+
+      const regularMeats = selectedIngredients.filter(i => 
+          (i.category === 'meat' || i.category === 'seafood') &&
+          !['fried-egg', 'omelette', 'creamy-omelette', 'sil', 'upae'].includes(i.id)
+      );
+
+      const eggCount = selectedIngredients.filter(i => ['fried-egg', 'omelette', 'creamy-omelette'].includes(i.id)).length;
+      
+      const specialOption = selectedIngredients.find(i => i.id === 'sil' || i.id === 'upae');
+
+      if (regularMeats.length > 0) {
+        price += (regularMeats.length - 1) * 10;
+      }
+      
+      price += eggCount * 10;
+
+      if (specialOption) {
+        price += specialOption.id === 'sil' ? 10 : 20;
+      }
+      
+      if (regularMeats.length === 0) {
+        if (eggCount > 0) {
+          price -= 10;
+        } else if (specialOption) {
+          price -= specialOption.id === 'sil' ? 10 : 20;
+        }
+      }
+
+      return price;
+    }
+    
+    const totalPrice = calculatePrice(ingredients);
+    
     const order: Order = {
       id: `order-${Date.now()}`,
       queueNumber: currentQueueNumber,
@@ -129,7 +169,7 @@ function QRPlatform() {
           menuItem: {
             id: `custom-${Date.now()}`,
             name: dishName,
-            price: 150,
+            price: totalPrice,
             image: 'https://images.unsplash.com/photo-1665088127661-83aeff6104c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb29raW5nJTIwaW5ncmVkaWVudHMlMjB2ZWdldGFibGVzfGVufDF8fHx8MTc1OTc0ODIyMHww&ixlib=rb-4.1.0&q=80&w=1080',
             description: `อาหารจานพิเศษประกอบด้วย ${ingredients.map(i => i.name).join(', ')}`,
             category: 'main',
@@ -140,7 +180,7 @@ function QRPlatform() {
           customizations: spicyLevel > 0 ? `ระดับความเผ็ด: ${'🌶️'.repeat(spicyLevel)}` : undefined,
         },
       ],
-      totalPrice: 150,
+      totalPrice: totalPrice,
       status: 'pending',
       timestamp: new Date(),
       tableNumber: 5,

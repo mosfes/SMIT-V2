@@ -84,25 +84,35 @@ export const menuItems: MenuItem[] = [
 ];
 
 export const ingredients: Ingredient[] = [
-  { id: 'chicken', name: 'ไก่', icon: '🍗', category: 'meat' },
-  { id: 'pork', name: 'หมู', icon: '🥓', category: 'meat' },
-  { id: 'beef', name: 'เนื้อ', icon: '🥩', category: 'meat' },
-  { id: 'shrimp', name: 'กุ้ง', icon: '🦐', category: 'seafood' },
-  { id: 'fish', name: 'ปลา', icon: '🐟', category: 'seafood' },
-  { id: 'squid', name: 'ปลาหมึก', icon: '🦑', category: 'seafood' },
-  { id: 'tofu', name: 'เต้าหู้', icon: '🧈', category: 'vegetable' },
-  { id: 'egg', name: 'ไข่', icon: '🥚', category: 'vegetable' },
-  { id: 'broccoli', name: 'บรอกโคลี', icon: '🥦', category: 'vegetable' },
-  { id: 'carrot', name: 'แครอท', icon: '🥕', category: 'vegetable' },
-  { id: 'pepper', name: 'พริกหยวก', icon: '🫑', category: 'vegetable' },
-  { id: 'mushroom', name: 'เห็ด', icon: '🍄', category: 'vegetable' },
-  { id: 'soy-sauce', name: 'ซีอิ๊ว', icon: '🍶', category: 'sauce' },
-  { id: 'fish-sauce', name: 'น้ำปลา', icon: '💧', category: 'sauce' },
-  { id: 'oyster-sauce', name: 'ซอสหอยนางรม', icon: '🦪', category: 'sauce' },
-  { id: 'chili', name: 'พริก', icon: '🌶️', category: 'spice' },
-  { id: 'garlic', name: 'กระเทียม', icon: '🧄', category: 'spice' },
-  { id: 'basil', name: 'โหระพา', icon: '🌿', category: 'spice' },
-  { id: 'ginger', name: 'ขิง', icon: '🫚', category: 'spice' },
+  // Meats
+  { id: 'pork-neck', name: 'สันคอหมูอบโอ่ง', icon: '/assets/A1.png', category: 'meat' },
+  { id: 'crispy-pork', name: 'หมูกรอบอบโอ่ง', icon: '/assets/หมูกรอบ.png', category: 'meat' },
+  { id: 'chicken', name: 'ไก่', icon: '/assets/ไก่.png', category: 'meat' },
+  { id: 'dolly-fish', name: 'ปลาดอลลี่', icon: '/assets/ปลาดอลลี่.png', category: 'meat' },
+  { id: 'silkworm-pupae', name: 'ดักแด้', icon: '/assets/ดักแด้.png', category: 'meat' },
+  { id: 'sil', name: 'พิเศษ', icon: '', category: 'meat' },
+  { id: 'upae', name: 'พิเศษตะโกน', icon: '', category: 'meat' },
+  
+  // Vegetables
+  { id: 'mushroom', name: 'เห็ด', icon: '/assets/เห็ด.png', category: 'vegetable' },
+  { id: 'oyster-sauce', name: 'ซอสหอย', icon: '/assets/ซอสหอย.png', category: 'sauce' },
+  { id: 'fish-sauce', name: 'น้ำปลา', icon: '/assets/น้ำปลา.png', category: 'sauce' },
+  { id: 'green-cap-sauce', name: 'ซอสฝาเขียว', icon: '/assets/ซองฝาเขียว.png', category: 'sauce' },
+  { id: 'light-soy-sauce', name: 'ซีอิ้วขาว', icon: '/assets/ซีอิ้วขาว.png', category: 'sauce' },
+
+  { id: 'sugar', name: 'น้ำตาล', icon: '/assets/น้ำตาล.png', category: 'spice' },
+  { id: 'salt', name: 'เกลือ', icon: '/assets/เกลือ.png', category: 'spice' },
+  { id: 'msg', name: 'ผงชูรส', icon: '/assets/ผงชูรส.png', category: 'spice' },
+  { id: 'chili', name: 'พริก', icon: '/assets/พริก.png', category: 'spice' },
+  { id: 'garlic', name: 'กระเทียม', icon: '/assets/กะเทียม.png', category: 'spice' },
+  { id: 'holy-basil', name: 'ใบกะเพรา', icon: '/assets/กะเพรา.png', category: 'spice' },
+  { id: 'mala', name: 'หมาล่า', icon: '/assets/หมาล่า.png', category: 'spice' },
+  { id: 'curry-paste', name: 'พริกแกง', icon: '/assets/พริกแกง.png', category: 'spice' },
+
+  // Toppings
+  { id: 'fried-egg', name: 'ไข่ดาว', icon: 'assets/ไข่ดาว.png', category: 'meat' },
+  { id: 'creamy-omelette', name: 'ไข่ข้น', icon: 'assets/ไข่ข้น.png', category: 'meat' },
+  { id: 'omelette', name: 'ไข่เจียว', icon: 'assets/ไข่เจียว.png', category: 'meat' },
 ];
 
 export const mockUser: User = {

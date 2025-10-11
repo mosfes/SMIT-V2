@@ -80,6 +80,6 @@ export interface SalesData {
 export interface Ingredient {
   id: string;
   name: string;
-  icon: string;
-  category: 'meat' | 'seafood' | 'vegetable' | 'sauce' | 'spice';
+  icon: string; // Can be an emoji or an image URL
+  category: 'meat' | 'seafood' | 'vegetable' | 'sauce' | 'spice' | 'topping';
 }
