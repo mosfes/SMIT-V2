@@ -94,21 +94,21 @@ export function MobileHome({ onNavigate }: MobileHomeProps) {
           <div className="space-y-4">
             <div>
               <h2>ข้อมูลร้านอาหาร</h2>
-              <p className="text-muted-foreground text-sm">อาหารไทยต้นตำรับ</p>
+              <p className="text-muted-foreground text-sm">คาเฟ่เห็ด</p>
             </div>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="flex items-start gap-2">
                 <Clock className="w-4 h-4 text-muted-foreground mt-0.5" />
                 <div>
                   <p className="text-muted-foreground">เวลาทำการ</p>
-                  <p>11:00 - 22:00</p>
+                  <p>16:00 - 02:00</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-muted-foreground mt-0.5" />
                 <div>
                   <p className="text-muted-foreground">ที่ตั้ง</p>
-                  <p>กรุงเทพ, ประเทศไทย</p>
+                  <p>ขอนแก่น, หลัง มข.</p>
                 </div>
               </div>
             </div>

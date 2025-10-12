@@ -66,7 +66,7 @@ export function CommunityFeed({ onBack }: CommunityFeedProps) {
               <TabsTrigger value="all">ทั้งหมด</TabsTrigger>
               <TabsTrigger value="main">จานหลัก</TabsTrigger>
               <TabsTrigger value="appetizer">ของทานเล่น</TabsTrigger>
-              <TabsTrigger value="dessert">ของหวาน</TabsTrigger>
+          
               <TabsTrigger value="popular">
                 <TrendingUp className="w-4 h-4" />
               </TabsTrigger>

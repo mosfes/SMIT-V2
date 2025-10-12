@@ -210,7 +210,7 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
         </div>
 
         {/* Queue Info & Skip */}
-        {pendingQueues > 0 && (
+        {/* {pendingQueues > 0 && (
           <div className="px-4 py-3 bg-amber-100 border-b-2 border-amber-200">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -229,7 +229,7 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
               </Button>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Spicy Level Selector */}
         <div className="px-4 py-3 bg-white/80 backdrop-blur-sm shadow-sm">

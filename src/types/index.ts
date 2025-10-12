@@ -24,8 +24,10 @@ export interface Order {
 }
 
 export interface OrderItem {
+  cartId?: string;
   menuItem: MenuItem;
   quantity: number;
+  size?: 'regular' | 'special' | 'extra-special';
   customizations?: string;
 }
 

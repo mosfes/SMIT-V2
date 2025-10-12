@@ -4,7 +4,7 @@ import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog';
 import { Textarea } from '../ui/textarea';
-import { Star, Clock, Users, Coins, MessageSquare, Send } from 'lucide-react';
+import { Star, Clock, Users, Coins, MessageSquare, Send, Zap } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
 import { Order } from '../../types';
 
@@ -14,13 +14,17 @@ interface OrderQueueProps {
 }
 
 export function OrderQueue({ order, onComplete }: OrderQueueProps) {
-  const { user, setUser } = useAppContext();
+  const { user, orders, skipQueueForOrder } = useAppContext();
   const [status, setStatus] = useState(order.status);
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [showReviewDialog, setShowReviewDialog] = useState(false);
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(0);
   const [estimatedTime, setEstimatedTime] = useState(15);
+  const [skipAmount, setSkipAmount] = useState(1);
+
+  // This ensures we are always looking at the latest order data from the context
+  const liveOrder = orders.find(o => o.id === order.id) || order;
 
   useEffect(() => {
     // Simulate order status changes
@@ -37,12 +41,22 @@ export function OrderQueue({ order, onComplete }: OrderQueueProps) {
     return () => clearTimeout(timer);
   }, [status]);
 
+  const pendingQueues = orders.filter(
+    o => (o.status === 'pending' || o.status === 'cooking') && o.queueNumber < liveOrder.queueNumber
+  ).length;
+
   const handleSkipQueue = () => {
-    if (user && user.coins >= 50) {
-      setUser({ ...user, coins: user.coins - 50 });
+    if (skipQueueForOrder(liveOrder.id, skipAmount)) {
+      // The queue number will update automatically from the context re-render.
+      // We can also optimistically update local state or just rely on the re-render.
+      // Let's also update the status to cooking as a sign of progress
       setStatus('cooking');
-      setEstimatedTime(5);
+      setEstimatedTime(Math.max(2, estimatedTime - skipAmount * 2)); // Simulate time reduction
       setShowSkipDialog(false);
+    } else {
+      alert(
+        `ไม่สามารถข้ามคิวได้ อาจจะมีเหรียญไม่พอ หรือมีคิวข้างหน้าน้อยกว่าที่เลือก`
+      );
     }
   };
 
@@ -76,7 +90,7 @@ export function OrderQueue({ order, onComplete }: OrderQueueProps) {
         <div className="text-center space-y-2">
           <div className={`inline-flex items-center justify-center w-32 h-32 rounded-full ${getStatusColor()} text-white mb-4 animate-pulse`}>
             <div className="text-center">
-              <div className="text-4xl">#{order.queueNumber}</div>
+              <div className="text-4xl">#{liveOrder.queueNumber}</div>
               <div className="text-sm">คิว</div>
             </div>
           </div>
@@ -138,7 +152,7 @@ export function OrderQueue({ order, onComplete }: OrderQueueProps) {
           <Card className="p-4">
             <Users className="w-5 h-5 mx-auto mb-1 text-muted-foreground" />
             <p className="text-muted-foreground">คิวก่อนหน้า</p>
-            <p>{Math.max(0, 3 - (status === 'cooking' ? 3 : 0))}</p>
+            <p>{pendingQueues}</p>
           </Card>
           <Card className="p-4">
             <Clock className="w-5 h-5 mx-auto mb-1 text-muted-foreground" />
@@ -159,26 +173,63 @@ export function OrderQueue({ order, onComplete }: OrderQueueProps) {
       <Dialog open={showSkipDialog} onOpenChange={setShowSkipDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>ข้ามคิว?</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <Zap className="w-5 h-5 text-yellow-500" />
+              ข้ามคิว
+            </DialogTitle>
             <DialogDescription>
-              การดำเนินการนี้มีค่าใช้จ่าย 50 เหรียญ หิว หิว หิว และจะเลื่อนออเดอร์ของคุณไปหน้าสุด
+              ใช้เหรียญ หิว หิว หิว ของคุณเพื่อข้ามคิว!
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg">
-              <span>ยอดคงเหลือปัจจุบัน:</span>
-              <span>{user?.coins} เหรียญ</span>
+
+          <div className="py-4 space-y-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm">เหรียญของคุณ:</span>
+                <div className="flex items-center gap-1">
+                  <Coins className="w-4 h-4 text-yellow-600" />
+                  <span>{user?.coins || 0}</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm">คิวก่อนหน้า:</span>
+                <span>{pendingQueues}</span>
+              </div>
             </div>
-            <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
-              <span>หลังจากข้าม:</span>
-              <span>{(user?.coins || 0) - 50} เหรียญ</span>
-            </div>
+
+            {pendingQueues > 0 && (
+              <div>
+                <label className="text-sm mb-2 block">ข้ามกี่คิว?</label>
+                <input
+                  type="range"
+                  min="1"
+                  max={Math.min(pendingQueues, Math.floor((user?.coins || 0) / 50))}
+                  value={skipAmount}
+                  onChange={(e) => setSkipAmount(Number(e.target.value))}
+                  className="w-full"
+                />
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-sm">ข้าม: {skipAmount} คิว</span>
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm">ราคา:</span>
+                    <Coins className="w-4 h-4 text-yellow-600" />
+                    <span>{skipAmount * 50}</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowSkipDialog(false)}>
               ยกเลิก
             </Button>
-            <Button onClick={handleSkipQueue} className="bg-yellow-500 hover:bg-yellow-600">
+            <Button
+              onClick={handleSkipQueue}
+              disabled={pendingQueues === 0}
+              className="bg-yellow-500 hover:bg-yellow-600"
+            >
+              <Zap className="w-4 h-4 mr-2" />
               ยืนยันการข้าม
             </Button>
           </DialogFooter>

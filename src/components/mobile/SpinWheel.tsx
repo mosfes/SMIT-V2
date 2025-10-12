@@ -51,15 +51,23 @@ export function SpinWheel({ onBack }: SpinWheelProps) {
   };
 
   const colors = [
-    'bg-red-400',
-    'bg-blue-400',
-    'bg-green-400',
-    'bg-yellow-400',
-    'bg-purple-400',
-    'bg-pink-400',
-    'bg-orange-400',
-    'bg-cyan-400',
+    'oklch(0.704 0.191 22.216)', // red-400
+    'oklch(0.707 0.165 254.624)', // blue-400
+    'oklch(0.792 0.209 151.711)', // green-400
+    'oklch(0.852 0.199 91.936)', // yellow-400
+    'oklch(0.714 0.203 305.504)', // purple-400
+    'oklch(0.718 0.202 349.761)', // pink-400
+    'oklch(0.75 0.183 55.934)',   // orange-400
+    'oklch(0.789 0.154 211.53)',   // cyan-400
   ];
+
+  const segmentAngle = 360 / names.length;
+  const conicGradient = `conic-gradient(${names.map((_, index) => {
+      const color = colors[index % colors.length];
+      const startAngle = segmentAngle * index;
+      const endAngle = segmentAngle * (index + 1);
+      return `${color} ${startAngle}deg ${endAngle}deg`;
+  }).join(', ')})`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-50">
@@ -96,26 +104,21 @@ export function SpinWheel({ onBack }: SpinWheelProps) {
                 className="w-full h-full rounded-full relative overflow-hidden border-4 border-gray-200 shadow-lg"
                 animate={{ rotate: rotation }}
                 transition={{ duration: 4, ease: 'easeOut' }}
+                style={{ background: conicGradient }}
               >
                 {names.map((name, index) => {
-                  const angle = (360 / names.length) * index;
+                  const numNames = names.length;
+                  const segmentAngle = 360 / numNames;
+                  const textRotation = index * segmentAngle + segmentAngle / 2;
                   return (
                     <div
                       key={index}
-                      className={`absolute top-0 left-1/2 origin-bottom ${colors[index % colors.length]} w-1 h-32`}
-                      style={{
-                        transform: `rotate(${angle}deg)`,
-                        transformOrigin: '0 128px',
-                      }}
+                      className="absolute w-full h-full"
+                      style={{ transform: `rotate(${textRotation}deg)` }}
                     >
-                      <div
-                        className="absolute top-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-sm text-white"
-                        style={{
-                          transform: `rotate(${90}deg)`,
-                        }}
-                      >
+                      <span className="absolute top-[15%] left-1/2 -translate-x-1/2 text-white text-sm font-semibold">
                         {name}
-                      </div>
+                      </span>
                     </div>
                   );
                 })}
