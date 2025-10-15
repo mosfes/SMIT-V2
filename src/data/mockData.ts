@@ -4,7 +4,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'krapao',
     name: 'กะเพรา',
-    price: 50,
+    price: 40,
     image: '/assets/ข้าวผัดกะเพรา.png',
     description: 'ข้าวกะเพราสะไตล์MLM',
     category: 'main',
@@ -14,7 +14,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'fried-rice',
     name: 'ข้าวผัด',
-    price: 50,
+    price: 40,
     image: '/assets/ข้าวผัด.png',
     description: 'ข้าวผัดสไตล์MLM',
     category: 'main',
@@ -24,7 +24,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'mala-krapao',
     name: 'กะเพราพริกหมาล่า',
-    price: 50,
+    price: 40,
     image: '/assets/กะเพราพริกหมาล่า.png',
     description: 'ข้าวกะเพราพริกหมาล่าสไตล์MLM',
     category: 'main',
@@ -34,7 +34,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'mala-fried-rice',
     name: 'ข้าวผัดพริกหมาล่า',
-    price: 50,
+    price: 40,
     image: '/assets/ข้าวผัดพริกหมาล่า.png',
     description: 'ข้าวผัดพริกหมาล่าสไตล์MLM',
     category: 'main',
@@ -44,7 +44,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'salt-chili-stir-fry',
     name: 'คั่วพริกเกลือ',
-    price: 60,
+    price: 50,
     image: '/assets/คั่วพริกเกลือ.png',
     description: 'คั่วพริกเกลือสไตล์MLM',
     category: 'main',
@@ -54,7 +54,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'curry-paste-stir-fry',
     name: 'ผัดพริกแกง',
-    price: 50,
+    price: 40,
     image: '/assets/ผัดพริกแกง.png',
     description: 'ข้าวผัดพริกแกงสไตล์MLM',
     category: 'main',
@@ -106,25 +106,39 @@ export const ingredients: Ingredient[] = [
   { id: 'upae', name: 'พิเศษตะโกน', icon: '', category: 'special' },
   
   // Vegetables
-  { id: 'oyster-sauce', name: 'ซอสหอย', icon: '/assets/ซอสหอย.png', category: 'sauce' },
-  { id: 'fish-sauce', name: 'น้ำปลา', icon: '/assets/น้ำปลา.png', category: 'sauce' },
-  { id: 'green-cap-sauce', name: 'ซอสฝาเขียว', icon: '/assets/ซองฝาเขียว.png', category: 'sauce' },
-  { id: 'light-soy-sauce', name: 'ซีอิ้วขาว', icon: '/assets/ซีอิ้วขาว.png', category: 'sauce' },
+    { id: 'mushroom', name: 'เห็ด', icon: '/assets/เห็ด.png', category: 'sauce' },
+  { id: 'oyster', name: 'พริกหมาล่า', icon: '/assets/หมาล่า.png', category: 'sauce' },
+  { id: '-sauce', name: 'ซอสเกาหลี', icon: '/assets/ซอสเกาหลี.png', category: 'sauce' },
+  { id: 'ouce', name: 'น้ำผึ้ง', icon: '/assets/น้ำผึ้ง.png', category: 'sauce' },
+  { id: 'cheese', name: 'ผงชีส', icon: '🧀', category: 'sauce' },
+  { id: 'tomyum', name: 'ผงต้มยำ', icon: '🍋', category: 'sauce' },
+  { id: 'bbq', name: 'ผงบาร์บีคิว', icon: '🍖', category: 'sauce' },
+  { id: 'paprika', name: 'ผงปาปริก้า', icon: '🌶️', category: 'sauce' },
+  { id: 'zabjeed', name: 'ผงแซ่บจี๊ด', icon: '🔥', category: 'sauce' },
+  { id: 'hot-spicy', name: 'ผงHot&spicy', icon: '🥵', category: 'sauce' },
+  { id: 'spicy-squid', name: 'ผงหมึกย่างสไปซี่', icon: '🦑', category: 'sauce' },
+  { id: 'nori-seaweed', name: 'ผงโนริสาหร่าย', icon: '🍙', category: 'sauce' },
+  { id: 'sour-cream-onion', name: 'ผงชาวครีมและหัวหอม', icon: '🧅', category: 'sauce' },
+  { id: 'smoked-salmon', name: 'ผงแซลม่อนรมควัน', icon: '🐟', category: 'sauce' },
+  // { id: 'oyster-sauce', name: 'ซอสหอย', icon: '/assets/ซอสหอย.png', category: 'sauce' },
+  // { id: 'fish-sauce', name: 'น้ำปลา', icon: '/assets/น้ำปลา.png', category: 'sauce' },
+  // { id: 'green-cap-sauce', name: 'ซอสฝาเขียว', icon: '/assets/ซองฝาเขียว.png', category: 'sauce' },
+  // { id: 'light-soy-sauce', name: 'ซีอิ้วขาว', icon: '/assets/ซีอิ้วขาว.png', category: 'sauce' },
 
-  { id: 'sugar', name: 'น้ำตาล', icon: '/assets/น้ำตาล.png', category: 'spice' },
-  { id: 'salt', name: 'เกลือ', icon: '/assets/เกลือ.png', category: 'spice' },
-  { id: 'msg', name: 'ผงชูรส', icon: '/assets/ผงชูรส.png', category: 'spice' },
-  { id: 'chili', name: 'พริก', icon: '/assets/พริก.png', category: 'spice' },
-  { id: 'garlic', name: 'กระเทียม', icon: '/assets/กะเทียม.png', category: 'spice' },
-  { id: 'holy-basil', name: 'ใบกะเพรา', icon: '/assets/กะเพรา.png', category: 'spice' },
-  { id: 'mala', name: 'หมาล่า', icon: '/assets/หมาล่า.png', category: 'spice' },
-  { id: 'curry-paste', name: 'พริกแกง', icon: '/assets/พริกแกง.png', category: 'spice' },
+  // { id: 'sugar', name: 'น้ำตาล', icon: '/assets/น้ำตาล.png', category: 'spice' },
+  // { id: 'salt', name: 'เกลือ', icon: '/assets/เกลือ.png', category: 'spice' },
+  // { id: 'msg', name: 'ผงชูรส', icon: '/assets/ผงชูรส.png', category: 'spice' },
+  // { id: 'chili', name: 'พริก', icon: '/assets/พริก.png', category: 'spice' },
+  // { id: 'garlic', name: 'กระเทียม', icon: '/assets/กะเทียม.png', category: 'spice' },
+  // { id: 'holy-basil', name: 'ใบกะเพรา', icon: '/assets/กะเพรา.png', category: 'spice' },
+  // { id: 'mala', name: 'หมาล่า', icon: '/assets/หมาล่า.png', category: 'spice' },
+  // { id: 'curry-paste', name: 'พริกแกง', icon: '/assets/พริกแกง.png', category: 'spice' },
 
-  // Toppings
+  // // Toppings
   { id: 'fried-egg', name: 'ไข่ดาว', icon: 'assets/ไข่ดาว.png', category: 'topping' },
   { id: 'creamy-omelette', name: 'ไข่ข้น', icon: 'assets/ไข่ข้น.png', category: 'topping' },
   { id: 'omelette', name: 'ไข่เจียว', icon: 'assets/ไข่เจียว.png', category: 'topping' },
-  { id: 'mushroom', name: 'เห็ด', icon: '/assets/เห็ด.png', category: 'topping' },
+
   
   // Seasoning
   { id: 'cheese', name: 'ชีส', icon: '🧀', category: 'seasoning' },

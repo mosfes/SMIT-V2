@@ -29,6 +29,8 @@ const isUrl = (string: string) => {
   return string.startsWith('http') || string.startsWith('/') || string.includes('.');
 };
 
+type CookingStyle = "krapao" | "fried-rice" | "salt-chili" | "curry-paste";
+
 interface CookingGameProps {
   onOrderComplete: (
     dishName: string,
@@ -47,6 +49,7 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
     []
   );
   const [spicyLevel, setSpicyLevel] = useState(0);
+  const [cookingStyle, setCookingStyle] = useState<CookingStyle>("krapao");
   const [cookingProgress, setCookingProgress] = useState(0);
   const [dishName, setDishName] = useState("");
   const [showSkipDialog, setShowSkipDialog] = useState(false);
@@ -62,24 +65,24 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
 
       let price = 50; // Base price
 
-      const regularMeats = ingredients.filter(i => 
+      const regularMeats = ingredients.filter(i =>
           (i.category === 'meat' || i.category === 'seafood')
       );
 
       const toppings = ingredients.filter(i => i.category === 'topping');
-      
+
       const specialOption = ingredients.find(i => i.id === 'sil' || i.id === 'upae');
 
       if (regularMeats.length > 0) {
         price += (regularMeats.length - 1) * 10;
       }
-      
+
       price += toppings.length * 10;
 
       if (specialOption) {
         price += specialOption.id === 'sil' ? 10 : 20;
       }
-      
+
       if (regularMeats.length === 0) {
         if (toppings.length > 0) {
           price -= 10;
@@ -140,10 +143,22 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
       (i) => i.category === "vegetable"
     );
 
-    const styles = ["ผัด", "เผ็ด", "หวาน", "กรอบ", "ไทย", "ย่าง", "นึ่ง"];
-    const style = styles[Math.floor(Math.random() * styles.length)];
+    let name = "";
+    switch (cookingStyle) {
+      case "krapao":
+        name = "กะเพรา";
+        break;
+      case "fried-rice":
+        name = "ข้าวผัด";
+        break;
+      case "salt-chili":
+        name = "คั่วพริกเกลือ";
+        break;
+      case "curry-paste":
+        name = "ผัดพริกแกง";
+        break;
+    }
 
-    let name = style;
     if (meats.length > 0) {
       name += ` ${meats[0].name}`;
     } else if (seafoods.length > 0) {
@@ -209,28 +224,6 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
           </div>
         </div>
 
-        {/* Queue Info & Skip */}
-        {/* {pendingQueues > 0 && (
-          <div className="px-4 py-3 bg-amber-100 border-b-2 border-amber-200">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-amber-700" />
-                <span className="text-sm">
-                  คิวปัจจุบัน: {pendingQueues} คิวก่อนหน้า
-                </span>
-              </div>
-              <Button
-                onClick={() => setShowSkipDialog(true)}
-                size="sm"
-                className="bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700"
-              >
-                <Zap className="w-4 h-4 mr-1" />
-                ข้ามคิว
-              </Button>
-            </div>
-          </div>
-        )} */}
-
         {/* Spicy Level Selector */}
         <div className="px-4 py-3 bg-white/80 backdrop-blur-sm shadow-sm">
           <div className="mb-2">
@@ -259,6 +252,34 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
             ))}
           </div>
         </div>
+
+        {/* Cooking Style Selector */}
+        <div className="px-4 py-3 bg-white/80 backdrop-blur-sm shadow-sm">
+          <div className="mb-2">
+            <span className="text-sm">เลือกวิธีปรุง</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+                {id: 'krapao', name: 'กะเพรา'},
+                {id: 'fried-rice', name: 'ข้าวผัด'},
+                {id: 'salt-chili', name: 'คั่วพริกเกลือ'},
+                {id: 'curry-paste', name: 'ผัดพริกแกง'}
+            ].map((style) => (
+              <button
+                key={style.id}
+                onClick={() => setCookingStyle(style.id as CookingStyle)}
+                className={`flex-1 py-2 px-3 rounded-lg transition-all ${
+                  cookingStyle === style.id
+                    ? "bg-white border-2 border-orange-500 scale-105 shadow-lg"
+                    : "bg-white border-2 border-gray-200 hover:border-orange-400"
+                }`}
+              >
+                  <span className="text-sm">{style.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
 
         {/* Ingredient Count */}
         <div className="px-4 py-2 bg-white/60">
@@ -423,7 +444,7 @@ export function CookingGame({ onOrderComplete, onBack }: CookingGameProps) {
             {/* Right: Vegetables, Sauces, Spices & Specials */}
             <div className="flex-shrink-0 w-20 space-y-2 overflow-y-auto max-h-[500px]">
               <div className="bg-gradient-to-br from-green-600 to-emerald-600 text-white px-1 py-1 rounded-lg text-center shadow-md sticky top-0 z-10">
-                <p className="text-[10px]">เครื่องปรุง</p>
+                <p className="text-[10px]">วัตถุดิบ</p>
               </div>
               {[...vegetables, ...sauces, ...spices].map((ingredient) => {
                 const isSelected = selectedIngredients.find(
